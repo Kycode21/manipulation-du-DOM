@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Atelier — Manipulation du DOM</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class', // ajoute/retire la classe "dark" sur <html>
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          keyframes: {
+            pop: { '0%': { opacity: 0, transform: 'translateY(-6px) scale(.98)' }, '100%': { opacity: 1, transform: 'none' } },
+          },
+          animation: { pop: 'pop .25s ease-out' },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen bg-slate-100 font-sans text-slate-800 antialiased transition-colors duration-300">
+  <header class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 pb-28 pt-14 text-white">
+    <div class="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full bg-white/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute -right-10 top-10 h-80 w-80 rounded-full bg-fuchsia-300/20 blur-3xl"></div>
+
+    <div class="relative mx-auto flex max-w-6xl flex-wrap items-start justify-between gap-6 px-5">
+      <div>
+        <h1 class="mt-4 text-4xl font-extrabold tracking-tight sm:text-5xl">Manipulation du DOM</h1>
+        <p class="mt-3 max-w-xl text-white/80">mini-défi pour apprendre à sélectionner, modifier et écouter les éléments de la page.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ======================= GRILLE ======================= -->
+  <main class="relative mx-auto -mt-20 grid max-w-6xl gap-5 px-5 pb-16 md:grid-cols-2 lg:grid-cols-3">
+    <section id="exercice-4" class="rounded-2xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/50 md:col-span-3">
+      
+      <h2 class="mt-3 text-xl font-bold">Liste de tâches</h2>
+      <p class="mt-1 text-sm text-slate-500">Ajoute, coche, supprime une tâche.</p>
+
+      <form id="form-tache" class="mt-5 flex gap-2">
+        <input id="input-tache" type="text" placeholder="Que dois-tu faire ?" autocomplete="off"
+        name="tache"
+          class="min-w-0 flex-1 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10">
+        <button type="submit" class="rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition hover:bg-indigo-500 active:scale-95">Ajouter</button>
+      </form>
+
+      <ul id="liste-taches" class="peer mt-4 space-y-2"></ul>
+
+      <div id="liste-vide" class="flex flex-col items-center py-8 text-slate-400 peer-[:has(li)]:hidden">
+        <span class="text-4xl">🎉</span>
+        <p class="mt-2 text-sm">Aucune tâche pour le moment</p>
+      </div>
+
+      <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4 text-sm text-slate-500">
+        <span><strong id="nb-taches" class="text-slate-800">0</strong> tâche(s) restante(s)</span>
+        <button id="btn-vider-terminees" type="button" class="font-medium text-rose-500 hover:underline">Supprimer les terminées</button>
+      </div>
+
+      <!-- Modèle d'une tâche : const li = document.querySelector('#template-tache').content.firstElementChild.cloneNode(true) -->
+      <template id="template-tache">
+        <li class="tache group flex animate-pop items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition [&.terminee]:border-transparent [&.terminee]:bg-emerald-50">
+          <label class="flex flex-1 cursor-pointer items-center gap-3">
+            <input type="checkbox" class="tache-case h-5 w-5 cursor-pointer rounded accent-emerald-500">
+            <span class="tache-texte break-words text-sm transition group-[.terminee]:text-slate-400 group-[.terminee]:line-through">Texte de la tâche</span>
+          </label>
+          <button type="button" aria-label="Supprimer" class="btn-supprimer grid h-8 w-8 place-items-center rounded-lg text-slate-400 opacity-0 transition hover:bg-rose-100 hover:text-rose-600 group-hover:opacity-100">✕</button>
+        </li>
+      </template>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
